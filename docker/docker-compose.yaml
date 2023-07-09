@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+ 
+  catalog-service:
+    depends_on:
+      - gamecloud-postgres
+    image: "ghcr.io/b3nk4n/gamecloud-catalog-service"
+    container_name: "catalog-service"
+    ports:
+      - 9001:9001
+      - 9999:9999
+    environment:
+      - BPL_JVM_THREAD_COUNT=64
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=9999
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://gamecloud-postgres:5432/gamecloud_catalog
+      - SPRING_PROFILES_ACTIVE=demo
+ 
+  gamecloud-postgres:
+    image: "postgres:15.3"
+    container_name: "gamecloud-postgres"
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=gamecloud_catalog
