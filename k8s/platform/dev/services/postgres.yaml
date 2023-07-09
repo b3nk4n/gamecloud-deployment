@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gamecloud-postgres
+  labels:
+    db: gamecloud-postgres
+spec:
+  selector:
+    matchLabels:
+      db: gamecloud-postgres
+  template:
+    metadata:
+      labels:
+        db: gamecloud-postgres
+    spec:
+      containers:
+        - name: gamecloud-postgres
+          image: postgres:15.3
+          env:
+            - name: POSTGRES_USER
+              value: user
+            - name: POSTGRES_PASSWORD
+              value: password 
+            - name: POSTGRES_DB
+              value: gamecloud_catalog
+          resources:
+            requests:
+              cpu: 100m
+              memory: 60Mi
+            limits:
+              cpu: 200m
+              memory: 120Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: gamecloud-postgres
+  labels:
+    db: gamecloud-postgres
+spec:
+  type: ClusterIP
+  selector:
+    db: gamecloud-postgres
+  ports:
+  - protocol: TCP
+    port: 5432
+    targetPort: 5432

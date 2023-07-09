@@ -5,7 +5,7 @@ The project was created based on a similar project of the
 [Cloud Native Spring in Action](https://www.manning.com/books/cloud-native-spring-in-action) book
 by [Thomas Vitale](https://www.thomasvitale.com).
 
-# Docker Compose
+## Docker Compose
 
 Using `docker-compose`, you can spin up parts of the GameCloud system.
 
@@ -33,4 +33,21 @@ Furthermore, you can debug `catalog-service` via your IDE, using the following r
     <method v="2" />
   </configuration>
 </component>
+```
+
+## Kubernetes
+
+As an example, to deploy the platform services for local development, run the following command from the root of the repo:
+
+```bash
+kubectl apply -f k8s/platform/dev/services
+```
+
+Then, could check the logs of either the pod, service or deployment:
+
+```bash
+kubectl get pods
+kubectl logs gamecloud-postgres-{id}
+kubectl logs service/gamecloud-postgres
+kubectl logs deployment/gamecloud-postgres
 ```
