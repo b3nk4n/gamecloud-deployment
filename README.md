@@ -14,7 +14,7 @@ cd docker
 docker compose up -d
 ```
 
-Furthermore, you can debug `catalog-service` via your IDE, using the following run configuration
+Furthermore, you can debug a running `catalog-service` container instance via your IDE, using the following run configuration:
 
 ```xml
 <component name="ProjectRunConfigurationManager">
