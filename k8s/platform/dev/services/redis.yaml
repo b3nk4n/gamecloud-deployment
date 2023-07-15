@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gamecloud-redis
+  labels:
+    db: gamecloud-redis
+spec:
+  selector:
+    matchLabels:
+      db: gamecloud-redis
+  template:
+    metadata:
+      labels:
+        db: gamecloud-redis
+    spec:
+      containers:
+        - name: gamecloud-redis
+          image: redis:7.0.12
+          resources:
+            requests:
+              cpu: 200m
+              memory: 50Mi
+            limits:
+              cpu: 400m
+              memory: 100Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: gamecloud-redis
+  labels:
+    db: gamecloud-redis
+spec:
+  type: ClusterIP
+  selector:
+    db: gamecloud-redis
+  ports:
+  - protocol: TCP
+    port: 6379
+    targetPort: 6379
