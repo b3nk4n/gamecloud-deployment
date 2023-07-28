@@ -65,3 +65,12 @@ services:
     container_name: "gamecloud-redis"
     ports:
       - 6379:6379
+
+  gamecloud-rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: gamecloud-rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672 # management UI
+    volumes:
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
