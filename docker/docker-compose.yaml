@@ -6,7 +6,7 @@ services:
       - gamecloud-postgres
       - config-service
     image: "ghcr.io/b3nk4n/gamecloud-catalog-service"
-    container_name: "catalog-service"
+    container_name: catalog-service
     ports:
       - 9001:9001
       - 9999:9999
@@ -24,7 +24,7 @@ services:
       - config-service
       - catalog-service
     image: "ghcr.io/b3nk4n/gamecloud-order-service"
-    container_name: "order-service"
+    container_name: order-service
     ports:
       - 9002:9002
       - 9998:9998
@@ -37,10 +37,11 @@ services:
       - SPRING_FLYWAY_URL=jdbc:postgresql://gamecloud-postgres:5432/gamecloud_catalog
       - CLIENT_CATALOG_SERVICE_URI=http://catalog-service:9001
 
+# TODO add api-gateway and logistic-service
 
   config-service:
     image: "ghcr.io/b3nk4n/gamecloud-catalog-service"
-    container_name: "config-service"
+    container_name: config-service
     ports:
       - 8888:8888
       - 8999:9999
@@ -51,7 +52,7 @@ services:
  
   gamecloud-postgres:
     image: "postgres:15.3"
-    container_name: "gamecloud-postgres"
+    container_name: gamecloud-postgres
     ports:
       - 5432:5432
     environment:
@@ -62,7 +63,7 @@ services:
 
   gamecloud-redis:
     image: "redis:7.0.12"
-    container_name: "gamecloud-redis"
+    container_name: gamecloud-redis
     ports:
       - 6379:6379
 
@@ -74,3 +75,13 @@ services:
       - 15672:15672 # management UI
     volumes:
       - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+
+  gamecloud-keycloak:
+    image: keycloak/keycloak:22.0.1
+    container_name: gamecloud-keycloak
+    command: start-dev
+    environment:
+      - KEYCLOAK_ADMIN=user
+      - KEYCLOAK_ADMIN_PASSWORD=password
+    ports:
+      - 8080:8080
