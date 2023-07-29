@@ -35,4 +35,6 @@ do_wait "Postgres" "db=gamecloud-postgres" 5
 
 do_wait "Redis" "db=gamecloud-redis" 5 
 
+do_wait "RabbitMQ" "db=gamecloud-rabbitmq" 5 
+
 echo "\n✅  Ready!\n"
