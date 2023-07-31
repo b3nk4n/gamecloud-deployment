@@ -380,12 +380,12 @@
     "users" : [ {
       "id" : "e28b0395-6c30-4e47-88e3-9b447bfb7267",
       "createdTimestamp" : 1654540944876,
-      "username" : "bjorn",
+      "username" : "vankwk",
       "enabled" : true,
       "totp" : false,
       "emailVerified" : false,
-      "firstName" : "Bjorn",
-      "lastName" : "Vinterberg",
+      "firstName" : "Vanessa",
+      "lastName" : "Kan",
       "credentials" : [ {
         "id" : "4ff88f56-ed3a-4adc-9e46-fc37debf3e99",
         "type" : "password",
@@ -401,12 +401,12 @@
     }, {
       "id" : "8e86facd-b2fe-4936-8d53-fff3dcaee683",
       "createdTimestamp" : 1654540912940,
-      "username" : "isabelle",
+      "username" : "b3nk4n",
       "enabled" : true,
       "totp" : false,
       "emailVerified" : false,
-      "firstName" : "Isabelle",
-      "lastName" : "Dahl",
+      "firstName" : "Benjamin",
+      "lastName" : "Kan",
       "credentials" : [ {
         "id" : "7197b022-b1a6-42c3-ae59-29523f8060aa",
         "type" : "password",
