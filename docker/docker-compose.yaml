@@ -37,7 +37,39 @@ services:
       - SPRING_FLYWAY_URL=jdbc:postgresql://gamecloud-postgres:5432/gamecloud_catalog
       - CLIENT_CATALOG_SERVICE_URI=http://catalog-service:9001
 
-# TODO add api-gateway and logistic-service
+  logistic-service:
+    depends_on:
+      - gamecloud-rabbitmq
+      - config-service
+    image: "ghcr.io/b3nk4n/gamecloud-logistic-service"
+    container_name: logistic-service
+    ports:
+      - 9003:9003
+      - 8003:8003
+    environment:
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=8003
+      - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
+      - SPRING_RABBITMQ_HOST=gamecloud-rabbitmq
+
+  api-gateway:
+    depends_on:
+      - gamecloud-keycloak
+      - gamecloud-redis
+      - config-service
+    image: "ghcr.io/b3nk4n/gamecloud-api-gateway"
+    container_name: api-gateway
+    ports:
+      - 9000:9000
+      - 8000:8000
+    environment:
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=8000
+      - CATALOG_SERVICE_URL=http://catalog-service:9001
+      - ORDER_SERVICE_URL=http://order-service:9002
+      - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
+      - SPRING_REDIS_HOST=gamecloud-redis
+      - SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI=http://host.docker.internal:8080/realms/GameCloud
 
   config-service:
     image: "ghcr.io/b3nk4n/gamecloud-catalog-service"
@@ -79,7 +111,9 @@ services:
   gamecloud-keycloak:
     image: keycloak/keycloak:22.0.1
     container_name: gamecloud-keycloak
-    command: start-dev
+    command: start-dev --import-realm
+    volumes:
+      - ./keycloak:/opt/keycloak/data/import
     environment:
       - KEYCLOAK_ADMIN=user
       - KEYCLOAK_ADMIN_PASSWORD=password
