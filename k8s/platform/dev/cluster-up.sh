@@ -31,6 +31,8 @@ kubectl apply -f services
 
 sleep 5
 
+do_wait "Keycloak" "app=gamecloud-keycloak" 5 
+
 do_wait "Postgres" "db=gamecloud-postgres" 5 
 
 do_wait "Redis" "db=gamecloud-redis" 5 
