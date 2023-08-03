@@ -15,9 +15,9 @@ spec:
     spec:
       containers:
         - name: gamecloud-keycloak
-          image: keycloak/keycloak:22.0.1
+          image: quay.io/keycloak/keycloak:21.0.1
           args:
-            - "start-dev"
+            - "start-dev --import-realm"
           ports:
             - containerPort: 8080
           env:
@@ -27,6 +27,7 @@ spec:
               value: password
             - name: JAVA_OPTS_APPEND
               value: "-Dkeycloak.import=/opt/keycloak/data/import/realm-config.json"
+
           readinessProbe:
             httpGet:
               path: /realms/master

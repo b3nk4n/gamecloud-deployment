@@ -264,7 +264,7 @@ data:
             "containerId" : "b667a765-7ee0-4a4e-a4ed-43fbd44e7b2a",
             "attributes" : { }
           } ],
-          "edge-service" : [ ],
+          "api-gateway" : [ ],
           "security-admin-console" : [ ],
           "admin-cli" : [ ],
           "account-console" : [ ],
@@ -556,7 +556,7 @@ data:
         "optionalClientScopes" : [ "address", "phone", "offline_access", "microprofile-jwt" ]
       }, {
         "id" : "752ef05c-2457-44b3-a807-a6b832daa6ab",
-        "clientId" : "edge-service",
+        "clientId" : "api-gateway",
         "surrogateAuthRequired" : false,
         "enabled" : true,
         "alwaysDisplayInConsole" : false,

@@ -51,3 +51,11 @@ kubectl logs gamecloud-postgres-{id}
 kubectl logs service/gamecloud-postgres
 kubectl logs deployment/gamecloud-postgres
 ```
+
+## Postgres
+
+To run SQL command against the running Postgres container, use the following command:
+
+```bash
+docker exec -it gamecloud-postgres psql -U user gamecloud_catalog
+```

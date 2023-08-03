@@ -1,14 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbitmq-config
+  labels:
+    db: gameclouud-rabbitmq
+data:
+  rabbitmq.conf: |
+    default_user = user
+    default_pass = password
+    vm_memory_high_watermark.relative = 0.95
+
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gamecloud-rabbitmq
   labels:
     db: gamecloud-rabbitmq
-data:
-  rabbitmq.conf: |
-    default_user = user
-    default_pass = password
-    vm_memory_high_watermark.relative = 0.95
 spec:
   selector:
     matchLabels:
@@ -28,6 +37,13 @@ spec:
             limits:
               cpu: 200m
               memory: 200Mi
+          volumeMounts:
+              - mountPath: /etc/rabbitmq
+                name: rabbitmq-config-volume
+      volumes:
+        - name: rabbitmq-config-volume
+          configMap:
+            name: rabbitmq-config
 
 ---
 

@@ -5,6 +5,7 @@ services:
     depends_on:
       - gamecloud-postgres
       - config-service
+      - gamecloud-keycloak
     image: "ghcr.io/b3nk4n/gamecloud-catalog-service"
     container_name: catalog-service
     ports:
@@ -17,12 +18,15 @@ services:
       - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
       - SPRING_DATASOURCE_URL=jdbc:postgresql://gamecloud-postgres:5432/gamecloud_catalog
       - SPRING_PROFILES_ACTIVE=demo
+      # - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://gamecloud-keycloak:8080/realms/GameCloud this might not work for the UI as gamecloud-keycloak is not known outside of the Docker network
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://host.docker.internal:8080/realms/GameCloud # works from both inside and outside the Docker network
 
   order-service:
     depends_on:
       - gamecloud-postgres
       - config-service
       - catalog-service
+      - gamecloud-keycloak
     image: "ghcr.io/b3nk4n/gamecloud-order-service"
     container_name: order-service
     ports:
@@ -36,6 +40,7 @@ services:
       - SPRING_R2DBC_URL=r2dbc:postgresql://gamecloud-postgres:5432/gamecloud_order
       - SPRING_FLYWAY_URL=jdbc:postgresql://gamecloud-postgres:5432/gamecloud_catalog
       - CLIENT_CATALOG_SERVICE_URI=http://catalog-service:9001
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://host.docker.internal:8080/realms/GameCloud # works from both inside and outside the Docker network
 
   logistic-service:
     depends_on:
@@ -109,7 +114,7 @@ services:
       - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
 
   gamecloud-keycloak:
-    image: keycloak/keycloak:22.0.1
+    image: quay.io/keycloak/keycloak:22.0.1
     container_name: gamecloud-keycloak
     command: start-dev --import-realm
     volumes:
