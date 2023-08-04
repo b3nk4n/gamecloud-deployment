@@ -38,7 +38,7 @@ services:
       - BPL_DEBUG_PORT=9998
       - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
       - SPRING_R2DBC_URL=r2dbc:postgresql://gamecloud-postgres:5432/gamecloud_order
-      - SPRING_FLYWAY_URL=jdbc:postgresql://gamecloud-postgres:5432/gamecloud_catalog
+      - SPRING_FLYWAY_URL=jdbc:postgresql://gamecloud-postgres:5432/gamecloud_order
       - CLIENT_CATALOG_SERVICE_URI=http://catalog-service:9001
       - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://host.docker.internal:8080/realms/GameCloud # works from both inside and outside the Docker network
 
@@ -73,7 +73,7 @@ services:
       - CATALOG_SERVICE_URL=http://catalog-service:9001
       - ORDER_SERVICE_URL=http://order-service:9002
       - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
-      - SPRING_REDIS_HOST=gamecloud-redis
+      - SPRING_DATA_REDIS_HOST=gamecloud-redis
       - SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI=http://host.docker.internal:8080/realms/GameCloud
 
   config-service:
