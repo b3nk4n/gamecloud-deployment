@@ -76,7 +76,7 @@ metadata:
     app: gamecloud-keycloak
 spec:
   rules:
-    - host: gamecloud-keycloak
+    - host: gamecloud-keycloak.local # <-- when using MacOS on M1: add "127.0.0.1 gamecloud-keycloak.local" to /etc/hosts file and access it via this domain from the browser
       http:
         paths:
           - path: /

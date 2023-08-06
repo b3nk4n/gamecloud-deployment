@@ -18,8 +18,8 @@ services:
       - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
       - SPRING_DATASOURCE_URL=jdbc:postgresql://gamecloud-postgres:5432/gamecloud_catalog
       - SPRING_PROFILES_ACTIVE=demo
-      # - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://gamecloud-keycloak:8080/realms/GameCloud this might not work for the UI as gamecloud-keycloak is not known outside of the Docker network
-      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://host.docker.internal:8080/realms/GameCloud # works from both inside and outside the Docker network
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://gamecloud-keycloak:8080/realms/GameCloud # this might not work for the UI as gamecloud-keycloak is not known outside of the Docker network, but works after adding "127.0.0.1 gamecloud-keycloak" to /etc/hosts file
+      # - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://host.docker.internal:8080/realms/GameCloud # should work from both inside and outside the Docker network, but somehow not for me from the outside
 
   order-service:
     depends_on:
@@ -40,7 +40,7 @@ services:
       - SPRING_R2DBC_URL=r2dbc:postgresql://gamecloud-postgres:5432/gamecloud_order
       - SPRING_FLYWAY_URL=jdbc:postgresql://gamecloud-postgres:5432/gamecloud_order
       - CLIENT_CATALOG_SERVICE_URI=http://catalog-service:9001
-      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://host.docker.internal:8080/realms/GameCloud # works from both inside and outside the Docker network
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://gamecloud-keycloak:8080/realms/GameCloud
 
   logistic-service:
     depends_on:
@@ -74,7 +74,7 @@ services:
       - ORDER_SERVICE_URL=http://order-service:9002
       - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
       - SPRING_DATA_REDIS_HOST=gamecloud-redis
-      - SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI=http://host.docker.internal:8080/realms/GameCloud
+      - SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI=http://gamecloud-keycloak:8080/realms/GameCloud
 
   config-service:
     image: "ghcr.io/b3nk4n/gamecloud-catalog-service"
